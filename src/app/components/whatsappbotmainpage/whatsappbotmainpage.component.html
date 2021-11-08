@@ -1,0 +1,51 @@
+<div class="container-fluid h-100">
+  <div class="row h-100">
+    <div class="col-3 p-1">
+      <div class="banner card text-center">
+        <div class="card-header">
+          Envio masivo de mensajes
+          <span class="text-success fw-bold">Whatsapp</span>
+          <div>
+            <app-connect-wsp
+              (wspConnectionSate)="whatsappStateChanges($event)"
+            ></app-connect-wsp>
+            <span class="badge badge-warning fw-normal">{{ AssignmentFileName }}</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="d-flex justify-content-center align-items-center">
+            <button
+              class="btn btn-primary m-1 p-2"
+              (click)="openCreateCases()"
+              [disabled]="WspState === 'close'"
+            >
+              Cargar casos
+            </button>
+            
+            <button
+            class="btn btn-success p-2"
+            (click)="openCreateTask()"
+            [disabled]="WspState === 'close' || Cases.length <= 0"
+            >
+              Enviar mensajes
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div class="col-9 h-100">
+      <div class="d-flex flex-column h-100">
+        <div class="d-flex overflow-auto">
+          <div class="container-fluid">
+            <div class="row g-2 p-1">
+              <div class="col-3" *ngFor="let task of tasks">
+                <app-task [task]="task"></app-task>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

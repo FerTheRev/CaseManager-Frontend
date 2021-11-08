@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  server_uri: 'https://case-manager-api.herokuapp.com'
 };

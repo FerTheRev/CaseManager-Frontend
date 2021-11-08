@@ -1,0 +1,25 @@
+<div class="container-fluid p-0">
+  <div class="card" *ngIf="WspConnectionState == 'close'">
+    <qrcode
+      *ngIf="wspQrCode"
+      [qrdata]="wspQrCode"
+      [width]="256"
+      [errorCorrectionLevel]="'M'"
+    ></qrcode>
+  </div>
+
+  <div
+    class="badge bg-success fw-normal fs-6"
+    *ngIf="WspConnectionState === 'open'"
+  >
+    Conectado
+  </div>
+
+  <button
+    class="btn btn-success me-2"
+    *ngIf="WspConnectionState == 'close'"
+    (click)="ConnectWsp()"
+  >
+    Conectar Whatsapp
+  </button>
+</div>

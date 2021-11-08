@@ -1,0 +1,146 @@
+<h2 mat-dialog-title>Enviar mensajes</h2>
+
+<form [formGroup]="form" (ngSubmit)="saveTask()">
+  <div class="container">
+    <div class="row g-2 align-items-center justify-content-center">
+      <!-- TIPO DE MENSAJE -->
+      <div class="col-12">
+        <label for="messageType" class="form-label text-dark">
+          Tipo de mensaje
+        </label>
+        <select
+          class="form-select"
+          formControlName="messageType"
+          id="messageType"
+        >
+          <option
+            *ngFor="let messageType of messageTypes"
+            [value]="messageType"
+            class="fs-6"
+          >
+            {{ messageType }}
+          </option>
+        </select>
+      </div>
+      <!-- FIN TIPO DE MENSAJE -->
+      <!-- OPCIONES -->
+      <div
+        class="col-12 card border border-primary p-2"
+        formGroupName="options"
+        *ngIf="showOptions"
+      >
+        <!-- QUITA -->
+        <div class="col-12">
+          <div class="form-label text-dark d-flex justify-content-center align-items-center">
+            Aplicar Quitas
+            <button
+              mdbRipple
+              type="button"
+              class="btn btn-success btn-sm btn-floating mx-2"
+              (click)="addQuita()"
+              [disabled]="form.value.options.quitas.length >= 1"
+            >
+              <i class="fas fa-plus"></i>
+            </button>
+          </div>
+          <table
+            class="table table-bordered table-sm mb-0"
+          >
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Valor Mínimo</th>
+                <th scope="col">Quita a aplicar</th>
+                <th scope="col">Si no cumple la condicion</th>
+              </tr>
+            </thead>
+            <tbody formArrayName='quitas'>
+              <tr [formGroupName]='iq' *ngFor="let quita of getQuitas().controls; let iq = index">
+                <th scope="row">{{ iq + 1}}</th>
+                <td>
+                  <input type="number" class="form-control" formControlName='condicion'> 
+                </td>
+                <td>
+                  <input type="number" class="form-control" formControlName='valorQuita'>
+                </td>
+                <td>
+                  <input type="number" class="form-control" formControlName='SiNoCumple'>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- FIN QUITA -->
+        <!-- CUOTAS -->
+        <div class="col-12 mt-2">
+          <label class="form-label text-dark d-flex justify-content-center align-items-center">
+            Aplicar Cuotas
+            <button
+              mdbRipple
+              type="button"
+              class="btn btn-success btn-sm btn-floating mx-2"
+              (click)="addPlanDePago()"
+            >
+              <i class="fas fa-plus"></i>
+            </button>
+          </label>
+          <table
+            class="table table-bordered table-sm mb-0"
+          >
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Valor Máximo</th>
+                <th scope="col">Cantidad de cuotas</th>
+              </tr>
+            </thead>
+            <tbody formArrayName="cuotas">
+              <tr [formGroupName]='ic' *ngFor="let cuota of getCuotas().controls; let ic = index">
+                <th scope="row">{{ ic + 1}}</th>
+                <td>
+                  <input type="number" class="form-control" formControlName='condicion'> 
+                </td>
+                <td>
+                  <input type="number" class="form-control" formControlName='cantidadDeCuotas'>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- FIN CUOTAS -->
+      </div>
+      <!-- FIN OPCIONES -->
+      <!-- FECHAS -->
+      <div class="col-12 card border border-primary p-2" *ngIf="ActiveDates">
+        <div class="col-12">
+          <label for="timeToResponse" class="form-label text-dark">
+            Fecha limite para responder
+          </label>
+          <input
+            type="date"
+            id="timeToResponse"
+            formControlName="timeToResponse"
+            class="form-control"
+          />
+        </div>
+        <div class="col-12">
+          <label for="timeToPay" class="form-label text-dark" mdbLabel>
+            Fecha limite para pagar
+          </label>
+          <input
+            type="date"
+            id="timeToPay"
+            formControlName="timeToPay"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <!-- FIN FECHAS -->
+    </div>
+  </div>
+  <mat-dialog-actions align="end">
+    <button class="btn btn-primary" [disabled]="FormState === 'INVALID'">
+      Guardar
+    </button>
+  </mat-dialog-actions>
+</form>

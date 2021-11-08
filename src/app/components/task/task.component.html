@@ -1,0 +1,52 @@
+<div
+  class="card border"
+  [ngClass]="{
+    'border-warning': task.state === 'en curso',
+    'border-success': task.state === 'completado'
+  }"
+  *ngIf="task"
+>
+  <div class="card-body p-1">
+    <ng-container *ngIf="task.state === 'en curso'; else taskCompletedTemplate">
+      <div class="card-title fw-bold text-center text-warning m-0">
+        Enviando Mensajes
+      </div>
+    </ng-container>
+    <ng-template #taskCompletedTemplate>
+      <div class="card-title fw-bold text-center text-success m-0">
+        Mensajes Enviados!
+      </div>
+    </ng-template>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item p-1 text-center">
+      <span class="text-warning"> {{ task.messageType }} </span>
+    </li>
+
+    <li class="list-group-item p-1 text-center">
+      Cantidad de msjs.: <span class="text-warning"> {{ task.amount }} </span>
+    </li>
+    <li class="list-group-item p-1" *ngIf="task.state === 'en curso'">
+      <div class="progress" style="height: 20px">
+        <div
+          class="progress-bar progress-bar-striped progress-bar-animated"
+          [ngStyle]="{ width: task.progress + '%' }"
+          [ngClass]="{ 'bg-success': task.progress === 100 }"
+        >
+          {{ task.progress }}%
+        </div>
+      </div>
+    </li>
+
+    <ng-container *ngIf="task.state == 'en curso'; else completedTemplate">
+      <li class="list-group-item p1 text-center">
+        <span class="badge bg-warning fw-normal"> {{ task.state }} </span>
+      </li>
+    </ng-container>
+    <ng-template #completedTemplate>
+      <li class="list-group-item p-1 text-center">
+        <span class="badge bg-success fw-normal">Completado</span>
+      </li>
+    </ng-template>
+  </ul>
+</div>
