@@ -1,7 +1,7 @@
 <div class="form-container">
     <div class="welcome p-4 text-left">
         <img src="assets/bg2-auth.jpg">
-        <h1>Gestor de Cobranza</h1>
+        <h1>Gestor de mensajeria</h1>
     </div>
     <div class="form">
         <form [formGroup]='form' (ngSubmit)="saveForm()" class="p-1" autocomplete="off">
@@ -20,8 +20,8 @@
                     </mdb-form-control>
                 </div>
             </div>
-            <h5 class="p-text-bold errorMessage" *ngIf="ErrorOnLogin.message.length != 0">{{ErrorOnLogin.message}}</h5>
-            <button type="submit" class="btn btn-outline-primary mt-2">Iniciar Sesion</button>
+            <h5 class="badge badge-danger fw-normal m-2" *ngIf="ErrorOnLogin.message.length != 0">{{ErrorOnLogin.message}}</h5>
+            <button type="submit" class="btn btn-primary mt-2">Iniciar Sesion</button>
         </form>
     </div>
 </div>
