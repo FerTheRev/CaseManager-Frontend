@@ -1,51 +1,131 @@
-<div class="container-fluid h-100">
-  <div class="row h-100">
-    <div class="col-3 p-1">
-      <div class="banner card text-center">
-        <div class="card-header">
-          Envio masivo de mensajes
-          <span class="text-success fw-bold">Whatsapp</span>
-          <div>
-            <app-connect-wsp
-              (wspConnectionSate)="whatsappStateChanges($event)"
-            ></app-connect-wsp>
-            <span class="badge badge-warning fw-normal">{{ AssignmentFileName }}</span>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="d-flex justify-content-center align-items-center">
-            <button
-              class="btn btn-primary m-1 p-2"
-              (click)="openCreateCases()"
-              [disabled]="WspState === 'close'"
-            >
-              Cargar casos
-            </button>
-            
-            <button
-            class="btn btn-success p-2"
-            (click)="openCreateTask()"
-            [disabled]="WspState === 'close' || Cases.length <= 0"
-            >
-              Enviar mensajes
-            </button>
-          </div>
 
+<div class="layout d-flex flex-column h-100 w-100">
+  <header>
+    <h5 class="badge badge-warning m-0 w-100 d-block fs-6" *ngIf="AssignmentMetadata.AssignmentFileName.length > 0">
+      Assignacion: <span class="text-danger">{{ AssignmentMetadata.AssignmentFileName}}</span> importado el <span class="text-danger">{{ AssignmentMetadata.importedAt }}</span>.
+    </h5>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+      <!-- Container wrapper -->
+      <div class="container-fluid">
+        <!-- Toggle button -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-mdb-toggle="collapse"
+          data-mdb-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <i class="fas fa-bars"></i>
+        </button>
+    
+        <!-- Collapsible wrapper -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <!-- Navbar brand -->
+          <div class="navbar-brand mt-lg-0 me-0 fw-bold"> Gestor de Mensajeria </div>
+          <!-- Left links -->
+          <!-- <ul class="navbar-nav mx-auto">
+            <li class="nav-item">
+    
+            </li>
+          </ul> -->
+          <!-- Left links -->
         </div>
-      </div>
-    </div>
-    <div class="col-9 h-100">
-      <div class="d-flex flex-column h-100">
-        <div class="d-flex overflow-auto">
-          <div class="container-fluid">
-            <div class="row g-2 p-1">
-              <div class="col-3" *ngFor="let task of tasks">
-                <app-task [task]="task"></app-task>
-              </div>
+        <!-- Collapsible wrapper -->
+    
+        <!-- Right elements -->
+        <div class="d-flex align-items-center justify-content-center">
+          <div mdbDropdown class="dropdown">
+            <button
+              type="button"
+              class="btn shadow-0 px-0"
+              id="Whatsapp"
+              mdbDropdownToggle
+            >
+              <span
+                class="me-1 text-capitalize"
+                [ngClass]="{
+                  'text-dark': WspState === 'close',
+                  'text-success': WspState === 'open'
+                }"
+              >
+                Whatsapp
+              </span>
+              <i
+                class="fab fa-whatsapp me-3 fa-lg"
+                [ngClass]="{
+                  'text-dark': WspState === 'close',
+                  'text-success': WspState === 'open'
+                }"
+              >
+              </i>
+            </button>
+            <div
+              mdbDropdownMenu
+              class="dropdown-menu"
+              aria-labelledby="WhatssappConnectionButton"
+            >
+              <app-connect-wsp
+                (wspConnectionSate)="WspState = $event"
+              ></app-connect-wsp>
             </div>
           </div>
+    
+          <div mdbDropdown class="dropdown">
+            <button
+              type="button"
+              class="btn shadow-0 px-0"
+              id="UserMenu"
+              mdbDropdownToggle
+            >
+              <span class="text-dark me-2"> {{ UserName }} </span>
+              <i class="fas fa-user fa-lg text-dark"></i>
+            </button>
+            <ul
+              mdbDropdownMenu
+              class="dropdown-menu"
+              aria-labelledby="UserMenuButton"
+            >
+              <li class="dropdown-item">Perfil</li>
+              <li class="dropdown-item" style="cursor: pointer">Cerrar Sesion</li>
+            </ul>
+          </div>
+        </div>
+        <!-- Right elements -->
+      </div>
+      <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar -->
+    
+    <div
+      class="d-flex justify-content-end align-items-center"
+      *ngIf="WspState === 'open'"
+    >
+      <button class="btn btn-light btn-sm m-1" (click)="openCreateCases()">
+        Cargar casos
+      </button>
+    
+      <button
+        class="btn btn-light btn-sm m-1"
+        (click)="openCreateTask()"
+        [disabled]="Cases.length <= 0"
+      >
+        Crear tarea
+      </button>
+    </div>
+  </header>
+  <main class="overflow-auto">
+    <div class="container-fluid">
+      <div class="row g-2 p-1 h-100 ">
+        <div class="col-3" *ngFor="let task of tasks">
+          <app-task [task]="task"></app-task>
+        </div>
+        <div class="col-3" *ngFor="let task of tasks">
+          <app-task [task]="task"></app-task>
         </div>
       </div>
     </div>
-  </div>
+  </main>
 </div>

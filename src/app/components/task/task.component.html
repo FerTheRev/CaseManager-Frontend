@@ -44,8 +44,9 @@
       </li>
     </ng-container>
     <ng-template #completedTemplate>
-      <li class="list-group-item p-1 text-center">
-        <span class="badge bg-success fw-normal">Completado</span>
+      <li class="list-group-item text-center" *ngIf="task.state === 'completado'">
+        <button mdbRipple  class="btn btn-outline-primary me-1" (click)="SeeDetails()">Detalles</button>
+        <button mdbRipple  class="btn btn-outline-danger" (click)="deleteTask(task.id)">Borrar</button>
       </li>
     </ng-template>
   </ul>

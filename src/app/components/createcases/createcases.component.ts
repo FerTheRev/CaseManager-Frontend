@@ -23,10 +23,12 @@ export class CreatecasesComponent implements OnInit {
     phones: [],
   };
   Assignment: any;
-  AssignmentName: string = '';
   LoadingFile: boolean = false;
   WhatsappState: string = 'close';
   allReady: boolean = false;
+  AssignmentName: string = '';
+  CGCasesFileName: string = '';
+  CGPhonesFileName: string = ''
   constructor(
     private CreateDBService: CreateCasesService,
     private websocketservice: WebSocketService,
@@ -34,7 +36,7 @@ export class CreatecasesComponent implements OnInit {
     private MatDialogRef: MatDialogRef<WhatsappbotmainpageComponent>,
   ) {
     this.WhatsappState = this.websocketservice.WspState
-   }
+  }
 
   ngOnInit(): void {
     this.websocketservice.GetWspConnStatus().subscribe(WspState => {
@@ -49,10 +51,14 @@ export class CreatecasesComponent implements OnInit {
         this.RequiredFiles.assigment = await this.ExcelService.getFile(file);
         this.AssignmentName = file.target.files[0].name;
       },
-      'Casos': async () => this.RequiredFiles.cases = await this.ExcelService.getFile(file),
+      'Casos': async () => {
+        this.RequiredFiles.cases = await this.ExcelService.getFile(file);
+        this.CGCasesFileName = file.target.files[0].name;
+      },
       'Telefonos': async () => {
         this.RequiredFiles.phones = await this.ExcelService.getFile(file);
         this.Assignment = await this.CreateDBService.getAssigment(this.RequiredFiles, this.websocketservice);
+        this.CGPhonesFileName = file.target.files[0].name;
         this.allReady = true
       }
     };
@@ -88,30 +94,34 @@ export class CreatecasesComponent implements OnInit {
     return GoogleContactsObjArr
   };
 
-  private getFilomentaTemplate(database: ICase[]){
+  private getFilomentaTemplate(database: ICase[]) {
     const Cases: any[] = [];
-   database.forEach(Case => {
-     Case.celulares.forEach(cel => {
-       let cellphoneWPrefix = cel.numero.split('');
-       cellphoneWPrefix.splice(0, cel.prefijo.length + 1);
-       const celular = cellphoneWPrefix.join('')
-       const element = {
-         trokes: Case.ident_nro,
-         'Clase de Telefono (F/M)': cel.tipo,
-         'Codigo de area': cel.prefijo,
-         'Numero de Telefono': celular
-       };
-       Cases.push(element)
-     })
-   });
+    database.forEach(Case => {
+      Case.celulares.forEach(cel => {
+        let cellphoneWPrefix = cel.numero.split('');
+        cellphoneWPrefix.splice(0, cel.prefijo.length + 1);
+        const celular = cellphoneWPrefix.join('')
+        const element = {
+          trokes: Case.ident_nro,
+          'Clase de Telefono (F/M)': cel.tipo,
+          'Codigo de area': cel.prefijo,
+          'Numero de Telefono': celular
+        };
+        Cases.push(element)
+      })
+    });
 
-   this.ExcelService.createExcel(Cases, 'Plantilla de telefonos')
+    this.ExcelService.createExcel(Cases, 'Plantilla de telefonos')
   };
 
   save() {
     this.CreateExcel('PlantillaFilomena');
     this.CreateExcel('Google Contacts');
-    // console.log(this.AssignmentName);
-    this.MatDialogRef.close({Assignment: this.Assignment, name: this.AssignmentName})
+    this.MatDialogRef.close({
+      Assignment: this.Assignment,
+      AssignmentFileName: this.AssignmentName,
+      CGCasesFileName: this.CGCasesFileName,
+      CGPhonesFileName: this.CGPhonesFileName
+    })
   };
 }

@@ -9,7 +9,7 @@ import { WebSocketService } from '../../services/web-socket.service';
 export class ConnectWspComponent implements OnInit {
   wspQrCode!: string;
   WspConnectionState: string = 'close';
-
+  showConnectButton: boolean = true;
   @Output() wspConnectionSate = new EventEmitter<string>();
   constructor(
     private WsService: WebSocketService) { }
@@ -20,12 +20,14 @@ export class ConnectWspComponent implements OnInit {
       this.wspConnectionSate.emit(e);
       this.wspQrCode = '';
       this.WsService.WspState = e;
+      e === 'open' ? this.showConnectButton = false : this.showConnectButton = true;
     });
   };
 
   ConnectWsp() {
     this.WsService.GetQR().subscribe((e) => {
       this.wspQrCode = e as string;
+      this.showConnectButton = false;
     });
   };
 }

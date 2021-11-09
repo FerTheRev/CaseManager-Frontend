@@ -11,7 +11,7 @@ export class ExcelService {
   getFile(file: any) {
     /* wire up file reader */
     const target: DataTransfer = <DataTransfer>(file.target);
-    if (target.files.length !== 1) throw new Error('Cannot use multiple files');
+    // if (target.files.length !== 1) throw new Error('Cannot use multiple files');
     const reader: FileReader = new FileReader();
 
     const excel = new Promise<any>((resolve, reject) => {

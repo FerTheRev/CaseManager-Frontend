@@ -1,0 +1,5 @@
+<h2 mat-dialog-title>Detalles de la tarea</h2>
+<h6 class="badge badge-info fs-6">Los siguientes casos no se enviaron mensaje ya que no son celulares o no tienen whatsapp</h6>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let case of data">{{ case.titular }} {{ case.ident_tipo }} nro: {{ case.ident_nro }}</li>
+</ul>

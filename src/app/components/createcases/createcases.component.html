@@ -115,13 +115,14 @@
 </div>
 
 
-<mat-dialog-actions align='end' *ngIf="allReady">
-    <button class="btn btn-primary" (click)="save()">Guardar</button>
+<mat-dialog-actions align='end'>
+    <button class="btn btn-danger" mat-dialog-close>Cancelar</button>
+    <button class="btn btn-primary" (click)="save()" *ngIf="allReady">Guardar</button>
 </mat-dialog-actions>
 </ng-container>
 <ng-template #elseTemplate>
     <h1 class="badge bg-warning fs-3 fw-normal text-wrap">
         Para poder crear una asignacion deberas conectarte a whatsapp, ya que esta funcion lo utiliza para
-        poder verificar si existen los telefonos en whatsapp
+        poder verificar si existen los telefonos en la misma.
     </h1>
 </ng-template>
