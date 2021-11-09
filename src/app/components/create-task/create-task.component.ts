@@ -73,6 +73,14 @@ export class CreateTaskComponent implements OnInit {
 
   getCuotas() {
     return this.form.controls['options'].get('cuotas') as FormArray;
+  };
+
+  deleteControlQuita(idx: number) {
+    this.getQuitas().removeAt(idx)
+  }
+
+  deleteControlCuotas(idx: number) {
+    this.getCuotas().removeAt(idx)
   }
 
   addQuita() {

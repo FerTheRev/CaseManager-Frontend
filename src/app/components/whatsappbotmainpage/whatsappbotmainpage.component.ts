@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { ITaskDTO } from '../../interfaces/task.interface';
 import { WebSocketService } from '../../services/web-socket.service';
 import { CreateTaskComponent } from '../create-task/create-task.component';
@@ -32,7 +33,8 @@ export class WhatsappbotmainpageComponent implements OnInit {
   constructor(
     private matDialog: MatDialog,
     private webSocketService: WebSocketService,
-    private loginService: AuthService
+    private loginService: AuthService,
+    private router: Router
   ) {
     const Asignacion: AssignmentLocalStorage = JSON.parse(localStorage.getItem('Asignacion')!);
     if (Asignacion) {
@@ -93,6 +95,11 @@ export class WhatsappbotmainpageComponent implements OnInit {
 
   whatsappStateChanges(state: string) {
     this.WspState = state;
+  };
+
+  logOut() {
+    localStorage.removeItem('cc');
+    this.router.navigate(['login']);
   };
 
 };

@@ -28,10 +28,9 @@ export class JwtInterceptor implements HttpInterceptor {
     };
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
-        if(err.status === 401 || err.status === 404) {
+        if(err.status === 401) {
           localStorage.removeItem('cc');
           this.Router.navigate(['login']);
-          console.clear()
         }
 
         return throwError(err);

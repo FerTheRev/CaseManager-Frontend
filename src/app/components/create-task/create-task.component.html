@@ -32,7 +32,7 @@
         <!-- QUITA -->
         <div class="col-12">
           <div class="form-label text-dark d-flex justify-content-center align-items-center">
-            Aplicar Quitas
+            Aplicar Quita
             <button
               mdbRipple
               type="button"
@@ -52,6 +52,7 @@
                 <th scope="col">Valor Mínimo</th>
                 <th scope="col">Quita a aplicar</th>
                 <th scope="col">Si no cumple la condicion</th>
+                <th></th>
               </tr>
             </thead>
             <tbody formArrayName='quitas'>
@@ -65,6 +66,11 @@
                 </td>
                 <td>
                   <input type="number" class="form-control" formControlName='SiNoCumple'>
+                </td>
+                <td class="d-flex justify-content-center align-items-center">
+                  <button class="btn btn-danger btn-sm" (click)="deleteControlQuita(iq)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -92,6 +98,7 @@
                 <th scope="col">#</th>
                 <th scope="col">Valor Máximo</th>
                 <th scope="col">Cantidad de cuotas</th>
+                <th></th>
               </tr>
             </thead>
             <tbody formArrayName="cuotas">
@@ -102,6 +109,11 @@
                 </td>
                 <td>
                   <input type="number" class="form-control" formControlName='cantidadDeCuotas'>
+                </td>
+                <td class="d-flex justify-content-center align-items-center">
+                  <button class="btn btn-danger btn-sm" (click)="deleteControlCuotas(ic)">
+                    <i class="fas fa-trash-alt"></i>
+                  </button>
                 </td>
               </tr>
             </tbody>

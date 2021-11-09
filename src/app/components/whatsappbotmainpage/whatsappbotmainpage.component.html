@@ -89,7 +89,7 @@
               aria-labelledby="UserMenuButton"
             >
               <li class="dropdown-item">Perfil</li>
-              <li class="dropdown-item" style="cursor: pointer">Cerrar Sesion</li>
+              <li class="dropdown-item" style="cursor: pointer" (click)="logOut()">Cerrar Sesion</li>
             </ul>
           </div>
         </div>
@@ -119,9 +119,6 @@
   <main class="overflow-auto">
     <div class="container-fluid">
       <div class="row g-2 p-1 h-100 ">
-        <div class="col-3" *ngFor="let task of tasks">
-          <app-task [task]="task"></app-task>
-        </div>
         <div class="col-3" *ngFor="let task of tasks">
           <app-task [task]="task"></app-task>
         </div>
