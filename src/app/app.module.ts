@@ -21,6 +21,10 @@ import { ConnectWspComponent } from './components/connect-wsp/connect-wsp.compon
 import { CreateTaskComponent } from './components/create-task/create-task.component';
 import { TaskComponent } from './components/task/task.component';
 import { SeeDetailsComponent } from './components/see-details/see-details.component';
+import { MessengerComponent } from './components/messenger/messenger.component';
+import { ChatsComponent } from './components/chats/chats.component';
+import { ChatComponent } from './components/chat/chat.component';
+import { ConversationComponent } from './components/conversation/conversation.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +35,11 @@ import { SeeDetailsComponent } from './components/see-details/see-details.compon
     ConnectWspComponent,
     CreateTaskComponent,
     TaskComponent,
-    SeeDetailsComponent
+    SeeDetailsComponent,
+    MessengerComponent,
+    ChatsComponent,
+    ChatComponent,
+    ConversationComponent
   ],
   imports: [
     BrowserModule,

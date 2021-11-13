@@ -39,17 +39,23 @@ export class WhatsappbotmainpageComponent implements OnInit {
     const Asignacion: AssignmentLocalStorage = JSON.parse(localStorage.getItem('Asignacion')!);
     if (Asignacion) {
       this.AssignmentMetadata = Asignacion.AssignmentMetadata;
-    this.Cases = Asignacion.Cases;
-    }
-  }
+      this.Cases = Asignacion.Cases;
+    };
+  };
 
   ngOnInit(): void {
     this.webSocketService.fromEvent<any[]>('tasks').subscribe(tasks => {
       this.tasks = tasks;
-      console.log(this.tasks);
     });
     this.webSocketService.fromEvent<ITaskDTO>('new task created').subscribe(task => this.tasks.push(task));
-    this.loginService.GetUserProfile().subscribe((r: any) => this.UserName = r.fullName)
+    this.loginService.GetUserProfile().subscribe((r: any) => this.UserName = r.fullName);
+    this.webSocketService.fromEvent('get chats').subscribe(c => console.log('chats', c));
+    this.webSocketService.GetWspConnStatus().subscribe(r => {
+      if (r === 'open') {
+        this.webSocketService.emit('get selected chats', ['5491124222118', '5491160170903', '5491138716631']);
+      };
+    })
+
   };
 
   openCreateCases() {
@@ -93,9 +99,6 @@ export class WhatsappbotmainpageComponent implements OnInit {
     })
   };
 
-  whatsappStateChanges(state: string) {
-    this.WspState = state;
-  };
 
   logOut() {
     localStorage.removeItem('cc');
