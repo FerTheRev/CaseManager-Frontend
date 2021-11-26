@@ -122,6 +122,12 @@ export class CreatecasesComponent implements OnInit {
       AssignmentFileName: this.AssignmentName,
       CGCasesFileName: this.CGCasesFileName,
       CGPhonesFileName: this.CGPhonesFileName
-    })
+    });
+    // console.log({
+    //   Assignment: this.Assignment,
+    //   AssignmentFileName: this.AssignmentName,
+    //   CGCasesFileName: this.CGCasesFileName,
+    //   CGPhonesFileName: this.CGPhonesFileName
+    // });
   };
 }

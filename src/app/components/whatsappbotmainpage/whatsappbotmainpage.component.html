@@ -2,10 +2,10 @@
 <div class="layout d-flex flex-column h-100 w-100">
   <header>
     <h5 class="badge badge-warning m-0 w-100 d-block fs-6" *ngIf="AssignmentMetadata.AssignmentFileName.length > 0">
-      Assignacion: <span class="text-danger">{{ AssignmentMetadata.AssignmentFileName}}</span> importado el <span class="text-danger">{{ AssignmentMetadata.importedAt }}</span>.
+      Asignacion: <span class="text-danger">{{ AssignmentMetadata.AssignmentFileName}}</span> importado el <span class="text-danger">{{ AssignmentMetadata.importedAt }}</span>.
     </h5>
     <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light p-0">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary p-0">
       <!-- Container wrapper -->
       <div class="container-fluid">
         <!-- Toggle button -->
@@ -24,16 +24,8 @@
         <!-- Collapsible wrapper -->
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Navbar brand -->
-          <div class="navbar-brand mt-lg-0 me-0 fw-bold"> Gestor de Mensajeria </div>
-          <!-- Left links -->
-          <!-- <ul class="navbar-nav mx-auto">
-            <li class="nav-item">
-    
-            </li>
-          </ul> -->
-          <!-- Left links -->
+          <div class="navbar-brand mt-lg-0 me-0 fw-normal"> Gestor de Mensajeria </div>
         </div>
-        <!-- Collapsible wrapper -->
     
         <!-- Right elements -->
         <div class="d-flex align-items-center justify-content-center">
@@ -47,7 +39,7 @@
               <span
                 class="me-1 text-capitalize"
                 [ngClass]="{
-                  'text-dark': WspState === 'close',
+                  'text-light': WspState === 'close',
                   'text-success': WspState === 'open'
                 }"
               >
@@ -56,7 +48,7 @@
               <i
                 class="fab fa-whatsapp me-3 fa-lg"
                 [ngClass]="{
-                  'text-dark': WspState === 'close',
+                  'text-light': WspState === 'close',
                   'text-success': WspState === 'open'
                 }"
               >
@@ -80,8 +72,8 @@
               id="UserMenu"
               mdbDropdownToggle
             >
-              <span class="text-dark me-2"> {{ UserName }} </span>
-              <i class="fas fa-user fa-lg text-dark"></i>
+              <span class="text-light me-2"> {{ UserName }} </span>
+              <i class="fas fa-user fa-lg text-light"></i>
             </button>
             <ul
               mdbDropdownMenu
@@ -116,13 +108,7 @@
       </button>
     </div>
   </header>
-  <main class="overflow-auto">
-    <div class="container-fluid">
-      <div class="row g-2 p-1 h-100 ">
-        <div class="col-3" *ngFor="let task of tasks">
-          <app-task [task]="task"></app-task>
-        </div>
-      </div>
-    </div>
+  <main class="d-flex h-100 w-100 flex-column overflow-auto" *ngIf="WspState === 'open'">
+    <app-messenger></app-messenger>
   </main>
 </div>

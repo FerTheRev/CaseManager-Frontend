@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Socket } from 'ngx-socket-io';
-import { environment } from 'src/environments/environment';
+import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
+import { IChat } from '../components/messenger/interfaces/chat.interface';
 
 
 @Injectable({
@@ -20,5 +22,10 @@ export class WebSocketService extends Socket {
 
   GetWspConnStatus() {
     return this.fromEvent<string>('wspConnectionState');
+  };
+
+  GetChats(contacts: any[]): Observable<IChat[]> {
+    this.emit('get selected chats', contacts);
+    return this.fromEvent<IChat[]>('get chats');
   }
 }

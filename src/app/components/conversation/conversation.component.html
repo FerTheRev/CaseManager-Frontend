@@ -1,1 +1,54 @@
-<p>conversation works!</p>
+<div class="chat-header shadow-2">
+  <div class="chat-user-img">
+    <img [src]="chat?.profilePicture" class="img-fluid rounded" />
+  </div>
+  <div class="chat-user-name">
+    <h5 class="m-0 p-1 text-white">{{ chat?.name }}</h5>
+  </div>
+</div>
+
+<div class="chat-body">
+  <div
+    class="message"
+    *ngFor="let message of chat?.messages"
+    [ngClass]="{ in: !message.key.fromMe }"
+  >
+    <div class="message-user-img">
+      <ng-container *ngIf="message.key.fromMe; else receiverProfileImg">
+        <img
+          src="../../../assets/Vayne.jpg"
+          class="img-fluid rounded shadow-2-strong"
+        />
+      </ng-container>
+      <ng-template #receiverProfileImg>
+        <img
+          [src]="chat?.profilePicture"
+          class="img-fluid rounded shadow-2-strong"
+        />
+      </ng-template>
+    </div>
+    <p class="text-message shadow-2-strong">
+      <ng-container *ngIf="message.message?.conversation; else elseTemplate">
+        {{ message.message?.conversation }}
+      </ng-container>
+      <ng-template #elseTemplate>
+        <audio
+          [src]="decodedAudioMessge(message)"
+          controls
+        ></audio>
+      </ng-template>
+    </p>
+  </div>
+</div>
+
+<div class="chat-footer">
+  <div
+    class="editable-text shadow-2-strong form-control"
+    contenteditable="true"
+    #textMessage
+    (keyup.enter)="sentMessage()"
+  ></div>
+  <button class="btn btn-primary" (click)="sentMessage()">
+    <i class="fas fa-paper-plane fa-2x"></i>
+  </button>
+</div>
