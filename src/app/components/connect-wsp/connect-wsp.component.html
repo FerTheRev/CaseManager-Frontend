@@ -1,5 +1,5 @@
 <div class="container-fluid p-0 text-center">
-  <div class="card" *ngIf="WspConnectionState == 'close'">
+  <div class="card" *ngIf="WspConnectionState == 'connecting'">
     <qrcode
       *ngIf="wspQrCode"
       [qrdata]="wspQrCode"

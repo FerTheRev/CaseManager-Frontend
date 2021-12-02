@@ -6,13 +6,21 @@ import { RedirectLoggedToHomeGuard } from './guards/redirect-logged-to-home.guar
 import { RedirectToLogingGuard } from './guards/redirect-to-loging.guard';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent, canActivate: [RedirectLoggedToHomeGuard] },
-  { path: 'whatsappbot', component: WhatsappbotmainpageComponent, canActivate: [RedirectToLogingGuard] },
-  { path: '**', redirectTo: 'whatsappbot', pathMatch: 'full'}
+  {
+    path: 'login',
+    component: LoginComponent,
+    canActivate: [RedirectLoggedToHomeGuard],
+  },
+  {
+    path: 'whatsappbot',
+    component: WhatsappbotmainpageComponent,
+    canActivate: [RedirectToLogingGuard],
+  },
+  { path: '**', redirectTo: 'whatsappbot', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

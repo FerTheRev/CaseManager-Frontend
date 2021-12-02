@@ -7,18 +7,17 @@ import { WebSocketService } from '../../services/web-socket.service';
   styleUrls: ['./connect-wsp.component.scss']
 })
 export class ConnectWspComponent implements OnInit {
-  wspQrCode!: string;
+  wspQrCode: string = '';
   WspConnectionState: string = 'close';
   showConnectButton: boolean = true;
-  @Output() wspConnectionSate = new EventEmitter<string>();
+  @Output() ConnectionSate = new EventEmitter<string>();
   constructor(
     private WsService: WebSocketService) { }
 
   ngOnInit(): void {
     this.WsService.GetWspConnStatus().subscribe((e: any) => {
       this.WspConnectionState = e;
-      this.wspConnectionSate.emit(e);
-      this.wspQrCode = '';
+      this.ConnectionSate.emit(e);
       this.WsService.WspState = e;
       e === 'open' ? this.showConnectButton = false : this.showConnectButton = true;
     });

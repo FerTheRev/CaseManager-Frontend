@@ -8,7 +8,7 @@ import { IChat } from './interfaces/chat.interface';
   styleUrls: ['./messenger.component.scss'],
 })
 export class MessengerComponent implements OnInit {
-  chats: any[] = [];
+  chats: IChat[] = [];
   selectedChat: IChat | null = null;
   constructor(private WebSocketService: WebSocketService) {}
 
@@ -23,5 +23,10 @@ export class MessengerComponent implements OnInit {
         this.chats = res;
       },
     });
-  }
+    this.WebSocketService.fromEvent<any>('chat update').subscribe( chat => {
+      const finded = this.chats.findIndex(e => e.messages[0].key.remoteJid === chat.jid);
+      console.log(chat)
+      this.chats[finded].messages.push(chat.messages[0])
+    })
+  };
 }

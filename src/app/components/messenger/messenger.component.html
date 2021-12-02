@@ -4,10 +4,10 @@
             <app-chats [chats]="chats" (selectedChat)="selectedChat = $event"></app-chats>
         </div>
         <div class="col-9 bg-warning p-0 h-100">
-            <ng-container *ngIf="selectedChat != null; else elseTemplate">
+            <ng-container *ngIf="selectedChat != null; else NoChatSelected">
                 <app-conversation [chat]="selectedChat"></app-conversation>
             </ng-container>
-            <ng-template #elseTemplate>
+            <ng-template #NoChatSelected>
                 <h1>Construyendo perro</h1>
             </ng-template>
             

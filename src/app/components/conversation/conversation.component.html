@@ -7,7 +7,7 @@
   </div>
 </div>
 
-<div class="chat-body">
+<div class="chat-body" #messagesWindow>
   <div
     class="message"
     *ngFor="let message of chat?.messages"
@@ -32,10 +32,7 @@
         {{ message.message?.conversation }}
       </ng-container>
       <ng-template #elseTemplate>
-        <audio
-          [src]="decodedAudioMessge(message)"
-          controls
-        ></audio>
+        <audio [src]="decodedAudioMessge(message)" controls></audio>
       </ng-template>
     </p>
   </div>
@@ -46,9 +43,12 @@
     class="editable-text shadow-2-strong form-control"
     contenteditable="true"
     #textMessage
-    (keyup.enter)="sentMessage()"
+    (keyup.enter)="sentMessage(chat!.messages[0].key.remoteJid)"
   ></div>
-  <button class="btn btn-primary" (click)="sentMessage()">
+  <button
+    class="btn btn-primary"
+    (click)="sentMessage(chat!.messages[0].key.remoteJid)"
+  >
     <i class="fas fa-paper-plane fa-2x"></i>
   </button>
 </div>
