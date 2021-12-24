@@ -3,12 +3,15 @@ import {
   Component,
   ElementRef,
   Input,
+  OnChanges,
   OnInit,
   ViewChild,
 } from '@angular/core';
 import { IChat, MessageElement } from '../messenger/interfaces/chat.interface';
 import { DomSanitizer } from '@angular/platform-browser';
 import { WebSocketService } from '../../services/web-socket.service';
+import { UserChatHistory } from '../../interfaces/ChatHistoty.inteface';
+import { Contact } from '../chats/chats.component';
 
 @Component({
   selector: 'app-conversation',
@@ -22,25 +25,23 @@ export class ConversationComponent implements OnInit, AfterViewChecked {
   ) {}
   @ViewChild('textMessage') textMessage!: ElementRef<HTMLDivElement>;
   @ViewChild('messagesWindow') messagesWindow!: ElementRef<HTMLDivElement>;
-  @Input() chat: IChat | null = null;
+  // @ViewChild() messagesWindow!: ElementRef<HTMLDivElement>;
+  @Input() selectedChatConversation: any | undefined = undefined;
+
   ngOnInit(): void {
-    console.log(this.chat);
+    console.log(this.selectedChatConversation);
+    
   }
   ngAfterViewChecked() {
     this.updateScroll();
   }
+
   sentMessage(jid: string) {
     const text = this.textMessage.nativeElement.textContent;
     if (text!.length > 0) {
       this.webSocketService.emit('send message', { jid, text });
       this.textMessage.nativeElement.textContent = '';
     }
-  }
-
-  decodedAudioMessge(message: MessageElement) {
-    const blob = new Blob([message.audioBuffer], { type: 'audio/ogg' });
-    const url = window.URL.createObjectURL(blob);
-    return this.DomSanitizer.bypassSecurityTrustUrl(url);
   }
 
   private updateScroll() {

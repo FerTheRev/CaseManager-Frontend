@@ -1,13 +1,23 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import * as dayjs from 'dayjs'
+import {
+  ChatHistory,
+  UserChatHistory,
+} from '../../interfaces/ChatHistoty.inteface';
 import { ITaskDTO } from '../../interfaces/task.interface';
 import { WebSocketService } from '../../services/web-socket.service';
 import { CreateTaskComponent } from '../create-task/create-task.component';
 import { CreatecasesComponent } from '../createcases/createcases.component';
 import { AuthService } from '../login/services/auth.service';
 
-interface AssignmentMeta { AssignmentFileName: string, CGCasesFileName: string, CGPhonesFileName: string, importedAt: string };
+interface AssignmentMeta {
+  AssignmentFileName: string;
+  CGCasesFileName: string;
+  CGPhonesFileName: string;
+  importedAt: string;
+}
 
 interface AssignmentLocalStorage {
   AssignmentMetadata: AssignmentMeta;
@@ -17,7 +27,7 @@ interface AssignmentLocalStorage {
 @Component({
   selector: 'app-whatsappbotmainpage',
   templateUrl: './whatsappbotmainpage.component.html',
-  styleUrls: ['./whatsappbotmainpage.component.scss']
+  styleUrls: ['./whatsappbotmainpage.component.scss'],
 })
 export class WhatsappbotmainpageComponent implements OnInit {
   Cases: any[] = [];
@@ -28,35 +38,45 @@ export class WhatsappbotmainpageComponent implements OnInit {
     AssignmentFileName: '',
     CGCasesFileName: '',
     CGPhonesFileName: '',
-    importedAt: ''
-  }
+    importedAt: '',
+  };
   constructor(
     private matDialog: MatDialog,
     private webSocketService: WebSocketService,
     private loginService: AuthService,
     private router: Router
   ) {
-    const Asignacion: AssignmentLocalStorage = JSON.parse(localStorage.getItem('Asignacion')!);
+    const Asignacion: AssignmentLocalStorage = JSON.parse(
+      localStorage.getItem('Asignacion')!
+    );
     if (Asignacion) {
       this.AssignmentMetadata = Asignacion.AssignmentMetadata;
       this.Cases = Asignacion.Cases;
-    };
-  };
+    }
+  }
 
   ngOnInit(): void {
-    this.webSocketService.fromEvent<any[]>('tasks').subscribe(tasks => {
+    this.webSocketService.fromEvent<any[]>('tasks').subscribe((tasks) => {
       this.tasks = tasks;
     });
-    this.webSocketService.fromEvent<ITaskDTO>('new task created').subscribe(task => this.tasks.push(task));
-    this.loginService.GetUserProfile().subscribe((r: any) => this.UserName = r.fullName);
-  };
+    this.webSocketService
+      .fromEvent<ITaskDTO>('new task created')
+      .subscribe((task) => this.tasks.push(task));
+    this.loginService
+      .GetUserProfile()
+      .subscribe((r: any) => (this.UserName = r.fullName));
+    console.log(this.webSocketService.WspState);
+    // const timestamp = 1638188663;
+    // const parse = dayjs.unix(timestamp)
+    // console.log(parse);
+  }
 
   openCreateCases() {
     const dialogRef = this.matDialog.open(CreatecasesComponent, {
-      disableClose: true
+      disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe(r => {
+    dialogRef.afterClosed().subscribe((r) => {
       if (!r) return;
       console.log(r);
       this.Cases = r.Assignment.Cases;
@@ -64,13 +84,17 @@ export class WhatsappbotmainpageComponent implements OnInit {
         AssignmentFileName: r.AssignmentFileName,
         CGCasesFileName: r.CGCasesFileName,
         CGPhonesFileName: r.CGPhonesFileName,
-        importedAt: new Date().toLocaleDateString()
+        importedAt: new Date().toLocaleDateString(),
       };
       localStorage.setItem(
         'Asignacion',
-        JSON.stringify({ AssignmentMetadata: this.AssignmentMetadata, Cases: this.Cases }));
+        JSON.stringify({
+          AssignmentMetadata: this.AssignmentMetadata,
+          Cases: this.Cases,
+        })
+      );
     });
-  };
+  }
 
   openCreateTask() {
     const dialogRef = this.matDialog.open(CreateTaskComponent, {
@@ -78,7 +102,7 @@ export class WhatsappbotmainpageComponent implements OnInit {
       panelClass: ['overflow-auto', 'm-2'],
     });
 
-    dialogRef.afterClosed().subscribe(task => {
+    dialogRef.afterClosed().subscribe((task) => {
       if (!task) return;
 
       const newtask = {
@@ -88,14 +112,12 @@ export class WhatsappbotmainpageComponent implements OnInit {
         state: 'Incompleto',
         progress: 0,
       };
-      this.webSocketService.emit('create new task', newtask)
-    })
-  };
-
+      this.webSocketService.emit('create new task', newtask);
+    });
+  }
 
   logOut() {
     localStorage.removeItem('cc');
     this.router.navigate(['login']);
-  };
-
-};
+  }
+}

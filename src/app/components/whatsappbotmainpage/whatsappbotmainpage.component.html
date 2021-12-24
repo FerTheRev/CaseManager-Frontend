@@ -108,13 +108,16 @@
       </button>
     </div>
   </header>
-  <main class="d-flex h-100 w-100 flex-column overflow-auto" *ngIf="WspState === 'open'">
-    <div class="container-fluid">
+  <!-- <main class="d-flex h-100 w-100 flex-column overflow-auto" *ngIf="WspState === 'open'"> -->
+    <!-- <div class="container-fluid">
       <div class="row">
         <div class="col-3" *ngFor="let task of tasks">
           <app-task [task]="task"></app-task>
         </div>
       </div>
-    </div>
-  </main>
+    </div> -->
+    <!-- </main> -->
+    <main class="d-flex h-100 w-100 flex-column overflow-auto">
+      <app-messenger></app-messenger>
+    </main>
 </div>

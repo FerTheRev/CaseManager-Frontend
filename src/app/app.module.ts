@@ -25,6 +25,7 @@ import { MessengerComponent } from './components/messenger/messenger.component';
 import { ChatsComponent } from './components/chats/chats.component';
 import { ChatComponent } from './components/chat/chat.component';
 import { ConversationComponent } from './components/conversation/conversation.component';
+import { DecodeAudioPipe } from './pipes/decode-audio.pipe';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { ConversationComponent } from './components/conversation/conversation.co
     MessengerComponent,
     ChatsComponent,
     ChatComponent,
-    ConversationComponent
+    ConversationComponent,
+    DecodeAudioPipe
   ],
   imports: [
     BrowserModule,

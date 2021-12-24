@@ -1,5 +1,5 @@
 
-<div class="container-fluid m-0 p-0 overflow-auto">
+<div class="container-fluid m-0 p-0 overflow-auto" *ngIf="chats.length > 0">
   <div class="row h-100 m-0 ">
   <div class="col-12 p-0" style="height: 80px" *ngFor="let chat of chats" (click)="loadMessages(chat)">
     <div
@@ -10,16 +10,22 @@
       <div class="row p-0 m-0 h-100" style="pointer-events: none;">
         <div class="col-3 p-1 h-100">
           <img
-            [src]="chat.profilePicture"
+            [src]="chat.profilePreviewImg"
             class="img-fluid rounded"
             style="height: 100%; width: 100%; object-fit: cover"
           />
         </div>
         <div class="col-9 p-0">
           <div class="d-flex flex-column w-100 h-100 p-2">
-            <h5 class="m-0">{{ chat.name }}</h5>
-            <p class="m-0 w-100 text-muted d-flex align-items-center flex-grow-1">
-              {{ chat.messages[chat.messages.length - 1].message?.conversation }}
+            <ng-container *ngIf="getChatContact(chat.id) !== undefined; else noNameTemplate">
+              <h5 class="m-0">{{ getChatContact(chat.id)!.name }}</h5>
+            </ng-container>
+            <ng-template #noNameTemplate>
+              <h5 class="m-0">{{ chat.id.split('@')[0] }}</h5>
+            </ng-template>
+            
+            <p class="m-0 w-100 text-muted d-flex align-items-center flex-grow-1" *ngIf="chat.messages.length > 0">
+              <!-- {{ chat.messages[chat.messages.length - 1].message?.conversation }} -->
             </p>
           </div>
         </div>

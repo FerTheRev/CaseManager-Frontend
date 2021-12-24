@@ -1,11 +1,11 @@
-<div class="container-fluid h-100 border border-secondary p-0 m-0" *ngIf="chats.length > 0">
+<div class="container-fluid h-100 border border-secondary p-0 m-0">
     <div class="row h-100 m-0">
         <div class="col-3 border border-secondary p-0 h-100">
-            <app-chats [chats]="chats" (selectedChat)="selectedChat = $event"></app-chats>
+            <app-chats (selectedChat)="selectedChatConversation = $event"></app-chats>
         </div>
         <div class="col-9 bg-warning p-0 h-100">
-            <ng-container *ngIf="selectedChat != null; else NoChatSelected">
-                <app-conversation [chat]="selectedChat"></app-conversation>
+            <ng-container *ngIf="selectedChatConversation !== undefined; else NoChatSelected">
+                <app-conversation [selectedChatConversation]="selectedChatConversation"></app-conversation>
             </ng-container>
             <ng-template #NoChatSelected>
                 <h1>Construyendo perro</h1>
