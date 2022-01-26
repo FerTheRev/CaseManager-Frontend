@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { combineLatest } from 'rxjs';
 import { ITaskDTO } from '../..//interfaces/task.interface';
 import { WebSocketService } from '../../services/web-socket.service';
 import { SeeDetailsComponent } from '../see-details/see-details.component';
@@ -16,14 +17,18 @@ export class TaskComponent implements OnInit {
     private MatDialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.webSocketService.fromEvent<{ id: string, taskProgress: number, state: string, details: any }>('current task progress')
-      .subscribe(currentTask => {
-        if (this.task.id === currentTask.id) {
-          this.task.progress = currentTask.taskProgress;
-          this.task.state = currentTask.state;
-          this.task.details = currentTask.details
-        };
+    this.webSocketService.fromEvent<{ taskID: string, taskProgress: number }>('[TASKS] Progress')
+      .subscribe(({taskID, taskProgress}) => {
+        this.updateTask(taskID, 'progress', taskProgress)
       });
+
+    this.webSocketService.fromEvent<{ taskID: string, state: string}>('[TASKS] State').subscribe( ({taskID, state}) => {
+      this.updateTask(taskID, 'state', state)
+    });
+
+    this.webSocketService.fromEvent<{taskID: string, details: any}>('[TASKS] Details').subscribe(({taskID, details}) => {
+      this.updateTask(taskID, 'details', details)
+    })
   }
 
   SeeDetails() {
@@ -35,5 +40,16 @@ export class TaskComponent implements OnInit {
 
   deleteTask(id: string) {
     this.webSocketService.emit('delete Task', id);
+  }
+
+  private updateTask(taskID: string, property: string, data: any){
+    const propToUpdate: any = {
+      'progress': () => this.task.progress = data,
+      'state': () => this.task.state = data,
+      'details': () => this.task.details = data
+    };
+
+    if(this.task.id !== taskID) return;
+    propToUpdate[property]();
   }
 }
